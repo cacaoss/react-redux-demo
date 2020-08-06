@@ -1,2 +1,3 @@
 const USERUPDATE = "USERUPDATE";
-export {USERUPDATE}
+const LOGOUT = "LOGOUT";
+export {USERUPDATE, LOGOUT}

@@ -7,6 +7,12 @@ const userUpdate = (payload) => {
         payload
     }
 }
+const logOut = () => {
+    return {
+        type: constants.LOGOUT,
+        payload: {isLogIn: false, lodding: false, err: ""}
+    }
+}
 
 const asyncLogIn = (payload) => {
     return async (dispatch) => {
@@ -33,10 +39,6 @@ const asyncLogIn = (payload) => {
         }
     }
 }
-const logOut = () => {
-    return userUpdate({isLogIn: false, lodding: false, err: ""});
-}
-
 const sagaLogIn = (payload) => {
     return {
         type: "SAGA_LOGIN",
