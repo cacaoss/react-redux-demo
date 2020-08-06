@@ -1,0 +1,2 @@
+const USERUPDATE = "USERUPDATE";
+export {USERUPDATE}
