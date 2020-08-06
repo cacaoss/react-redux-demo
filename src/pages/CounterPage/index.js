@@ -1,42 +1,46 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux"
-import {add, minus, asyncAdd, asyncMinus} from "../../redux/action"
 
 @connect(
-    ({count}) => ({count}),
-    {
-        add, minus, asyncAdd, asyncMinus
-    }
+    ({count, hello}) => ({count, hello})
 )
 class CounterPage extends Component {
     add = () => {
-        this.props.add(10);
+        this.props.dispatch({
+            type: "SAGA_COUNT_ADD",
+            payload: 10
+        });
     }
     minus = () => {
-        this.props.minus(10);
+        this.props.dispatch({
+            type: "SAGA_COUNT_MINUS",
+            payload: 1
+        });
     }
-    asyncAdd = () => {
-        this.props.asyncAdd(100);
-    }
-    asyncMinus = () => {
-        this.props.asyncMinus(100);
+    hello = () => {
+        const num = Math.ceil(1 + Math.random() * 10).toString()
+
+        this.props.dispatch({
+            type: "SAGA_HELLO",
+            payload: num
+        });
     }
 
     render() {
-        const {count} = this.props
+        const {count, hello} = this.props;
+
         return (
             <div>
-                <h2>Counter Page</h2>
+                <h2>CounterPage</h2>
                 <hr/>
-                <p>{count}</p>
+                <p>Count:{count}</p>
                 <button type={"button"} onClick={this.add}>加</button>
                 &nbsp;
                 <button type={"button"} onClick={this.minus}>减</button>
                 &nbsp;
-                <button type={"button"} onClick={this.asyncAdd}>异步加</button>
-                &nbsp;
-                <button type={"button"} onClick={this.asyncMinus}>异步减</button>
-                &nbsp;
+                <hr/>
+                <p>Hello:{hello}</p>
+                <button type={"button"} onClick={this.hello}>Hello</button>
             </div>
         );
     }

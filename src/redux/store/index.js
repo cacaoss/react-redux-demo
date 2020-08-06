@@ -1,30 +1,50 @@
-import {createStore, applyMiddleware, compose} from "redux";
-import thunk from "redux-thunk"
-import logger from "redux-logger"
+import {createStore, applyMiddleware, combineReducers, compose} from "redux"
+import createSagaMiddleware from "redux-saga"
 
-import rootReducer from "../reducer";
-import sagaMiddleware, {userSaga} from "../saga";
+import * as constants from "../constants"
+import rootSaga from "../saga"
 
 const initState = {
-    user: {
-        isLogIn: false,
-        lodding: false,
-    },
-    count: 500,
+    count: 0,
+    hello:"XXXX"
 };
+const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(
-    rootReducer,
+const countReducer = (state = 0, action) => {
+    switch (action.type) {
+        case constants.ADD: {
+            return state + action.payload;
+        }
+        case constants.MINUS: {
+            return state - action.payload;
+        }
+        default:
+            return state;
+    }
+}
+
+const helloReducer = (state = "", action) => {
+    switch (action.type) {
+        case constants.HELLO: {
+            return action.payload;
+        }
+        default:
+            return state;
+    }
+}
+
+const stroe = createStore(
+    combineReducers({
+        count: countReducer,
+        hello:helloReducer
+    }),
     initState,
     compose(
-        applyMiddleware(
-            thunk,
-            sagaMiddleware,
-            logger
-        ),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-);
+        applyMiddleware(sagaMiddleware),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+)
 
-sagaMiddleware.run(userSaga);
+sagaMiddleware.run(rootSaga);
 
-export default store;
+export default stroe;
