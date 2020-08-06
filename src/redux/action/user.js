@@ -1,5 +1,5 @@
 import * as constants from "../constants"
-import {loginRequest} from "../../service"
+import {getUserScroe, loginRequest} from "../../service"
 
 const userUpdate = (payload) => {
     return {
@@ -19,6 +19,11 @@ const asyncLogIn = (payload) => {
                 isLogIn: true,
                 lodding: false,
             }));
+
+            const userScore = await getUserScroe(userInfo);
+            dispatch(userUpdate({
+                ...userScore,
+            }));
         } catch (err) {
             dispatch(userUpdate({
                 isLogIn: false,
@@ -32,4 +37,11 @@ const logOut = () => {
     return userUpdate({isLogIn: false, lodding: false, err: ""});
 }
 
-export {asyncLogIn, logOut}
+const sagaLogIn = (payload) => {
+    return {
+        type: "SAGA_LOGIN",
+        payload
+    }
+}
+
+export {asyncLogIn, logOut, userUpdate, sagaLogIn}

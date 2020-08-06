@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {asyncLogIn, logOut} from "../../redux/action"
+import {asyncLogIn, logOut, sagaLogIn} from "../../redux/action"
 
 @connect(
     ({user}) => ({user}),
     {
-        asyncLogIn,
-        logOut,
+        asyncLogIn, logOut, sagaLogIn
     }
 )
 class UserPage extends Component {
@@ -28,6 +27,15 @@ class UserPage extends Component {
     }
     logOut = () => {
         this.props.logOut();
+    }
+
+    sagaLogIn = () => {
+        const {username} = this.state;
+        this.props.sagaLogIn({name: username});
+    }
+
+    componentDidMount() {
+        console.log("props", this.props)
     }
 
     render() {
@@ -62,6 +70,8 @@ class UserPage extends Component {
                 <button type={"button"} onClick={this.logIn}>登录</button>
                 &nbsp;
                 <button type={"button"} onClick={this.logOut}>退出</button>
+                &nbsp;
+                <button type={"button"} onClick={this.sagaLogIn}>Saga登录</button>
                 &nbsp;
                 <hr/>
             </div>

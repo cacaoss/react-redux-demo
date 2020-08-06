@@ -11,8 +11,15 @@ const loginRequest = (userInfo) => {
             } else {
                 reject("用户名错误")
             }
-        }, 2000);
+        }, 1000);
+    })
+}
+const getUserScroe = (userInfo) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({score: 80});
+        }, 1000);
     })
 }
 
-export {loginRequest}
+export {loginRequest, getUserScroe}
